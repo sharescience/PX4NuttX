@@ -147,51 +147,6 @@
 #  error "CONFIG_USBDEV_EP3_TXFIFO_SIZE is out of range"
 #endif
 
-#if defined(CONFIG_STM32_STM32F446) || defined(CONFIG_STM32_STM32F469)
-#  define OTGFS_GINT_RESETS (OTGFS_GINT_USBRST | OTGFS_GINT_RSTDET)
-#  define OTGFS_GINT_RESERVED (OTGFS_GINT_RES89 | \
-                              (OTGFS_GINT_RES16 | OTGFS_GINTMSK_EPMISM) \
-                              |OTGFS_GINT_RES22)
-
-#  define OTGFS_GINT_RC_W1 (OTGFS_GINT_MMIS     | \
-                            OTGFS_GINT_SOF      | \
-                            OTGFS_GINT_ESUSP    | \
-                            OTGFS_GINT_USBSUSP  | \
-                            OTGFS_GINT_USBRST   | \
-                            OTGFS_GINT_ENUMDNE  | \
-                            OTGFS_GINT_ISOODRP  | \
-                            OTGFS_GINT_EOPF     | \
-                            OTGFS_GINT_IISOIXFR | \
-                            OTGFS_GINT_IISOOXFR | \
-                            OTGFS_GINT_RSTDET   | \
-                            OTGFS_GINT_LPMINT   | \
-                            OTGFS_GINT_CIDSCHG  | \
-                            OTGFS_GINT_DISC     | \
-                            OTGFS_GINT_SRQ      | \
-                            OTGFS_GINT_WKUP)
-#else
-#  define OTGFS_GINT_RESETS OTGFS_GINT_USBRST
-#  define OTGFS_GINT_RESERVED (OTGFS_GINT_RES89 | \
-                              (OTGFS_GINT_RES16 | OTGFS_GINTMSK_EPMISM) \
-                              |OTGFS_GINT_RES2223 | \
-                               OTGFS_GINT_RES27)
-
-#  define OTGFS_GINT_RC_W1 (OTGFS_GINT_MMIS     | \
-                            OTGFS_GINT_SOF      | \
-                            OTGFS_GINT_ESUSP    | \
-                            OTGFS_GINT_USBSUSP  | \
-                            OTGFS_GINT_USBRST   | \
-                            OTGFS_GINT_ENUMDNE  | \
-                            OTGFS_GINT_ISOODRP  | \
-                            OTGFS_GINT_EOPF     | \
-                            OTGFS_GINT_IISOIXFR | \
-                            OTGFS_GINT_IISOOXFR | \
-                            OTGFS_GINT_CIDSCHG  | \
-                            OTGFS_GINT_DISC     | \
-                            OTGFS_GINT_SRQ      | \
-                            OTGFS_GINT_WKUP)
-#endif
-
 /* Debug ***********************************************************************/
 /* Trace error codes */
 
@@ -3539,7 +3494,7 @@ static inline void stm32_otginterrupt(FAR struct stm32_usbdev_s *priv)
 
   /* Clear OTG interrupt */
 
-  stm32_putreg(regval, STM32_OTGFS_GOTGINT);
+  stm32_putreg(retval, STM32_OTGFS_GOTGINT);
 }
 #endif
 
@@ -5231,44 +5186,15 @@ static void stm32_hwinitialize(FAR struct stm32_usbdev_s *priv)
 
   /* Deactivate the power down */
 
-#if defined(CONFIG_STM32_STM32F446) || defined(CONFIG_STM32_STM32F469)
-  /* In the case of the STM32F446 or STM32F469 the meaning of the bit
-   * has changed to VBUS Detection Enable when set
-   */
-
-  regval  = OTGFS_GCCFG_PWRDWN;
-
-# ifdef CONFIG_USBDEV_VBUSSENSING
-  regval |= OTGFS_GCCFG_VBDEN;
-# endif
-
-#else
-  /* In the case of the the all others the meaning of the bit is No VBUS
-   * Sense when Set
-   */
-
   regval  = (OTGFS_GCCFG_PWRDWN | OTGFS_GCCFG_VBUSASEN | OTGFS_GCCFG_VBUSBSEN);
-# ifndef CONFIG_USBDEV_VBUSSENSING
+#ifndef CONFIG_USBDEV_VBUSSENSING
   regval |= OTGFS_GCCFG_NOVBUSSENS;
-# endif
-# ifdef CONFIG_STM32_OTGFS_SOFOUTPUT
+#endif
+#ifdef CONFIG_STM32_OTGFS_SOFOUTPUT
   regval |= OTGFS_GCCFG_SOFOUTEN;
-# endif
 #endif
   stm32_putreg(regval, STM32_OTGFS_GCCFG);
   up_mdelay(20);
-
-  /* For the new OTG controller in the F446, F469 when VBUS sensing is not used we
-   * need to force the B session valid
-   */
-
-#if defined(CONFIG_STM32_STM32F446) || defined(CONFIG_STM32_STM32F469)
-# ifndef CONFIG_USBDEV_VBUSSENSING
-  regval  =  stm32_getreg(STM32_OTGFS_GOTGCTL);
-  regval |= (OTGFS_GOTGCTL_BVALOEN | OTGFS_GOTGCTL_BVALOVAL);
-  stm32_putreg(regval, STM32_OTGFS_GOTGCTL);
-# endif
-#endif
 
   /* Force Device Mode */
 

@@ -75,7 +75,7 @@
 #define STM32_OTGFS_HNPTXFSIZ_OFFSET    0x0028 /* Host non-periodic transmit FIFO size register */
 #define STM32_OTGFS_DIEPTXF0_OFFSET     0x0028 /* Endpoint 0 Transmit FIFO size */
 #define STM32_OTGFS_HNPTXSTS_OFFSET     0x002c /* Non-periodic transmit FIFO/queue status register */
-#define STM32_OTGFS_GCCFG_OFFSET        0x0038 /* General core configuration register */
+#define STM32_OTGFS_GCCFG_OFFSET        0x0038 /* general core configuration register */
 #define STM32_OTGFS_CID_OFFSET          0x003c /* Core ID register  */
 #define STM32_OTGFS_HPTXFSIZ_OFFSET     0x0100 /* Host periodic transmit FIFO size register */
 
@@ -153,7 +153,7 @@
 #define STM32_OTGFS_DVBUSPULSE_OFFSET   0x082c /* Device VBUS pulsing time register */
 #define STM32_OTGFS_DIEPEMPMSK_OFFSET   0x0834 /* Device IN endpoint FIFO empty interrupt mask register */
 
-#define STM32_OTGFS_DIEP_OFFSET(n)      (0x0900 + ((n) << 5))
+#define STM32_OTGFS_DIEP_OFFSET(n)      (0x0900 + ((n) << 5)) 
 #define STM32_OTGFS_DIEPCTL_EPOFFSET    0x0000 /* Device endpoint control register */
 #define STM32_OTGFS_DIEPINT_EPOFFSET    0x0008 /* Device endpoint interrupt register */
 #define STM32_OTGFS_DIEPTSIZ_EPOFFSET   0x0010 /* Device IN endpoint transfer size register */
@@ -389,30 +389,17 @@
 
 #define OTGFS_GOTGCTL_SRQSCS            (1 << 0)  /* Bit 0:  Session request success */
 #define OTGFS_GOTGCTL_SRQ               (1 << 1)  /* Bit 1:  Session request */
-#if defined(CONFIG_STM32_STM32F446) || defined(CONFIG_STM32_STM32F469)
-#  define OTGFS_GOTGCTL_VBVALOEN        (1 << 2)  /* Bit 2:  VBUS valid override enable */
-#  define OTGFS_GOTGCTL_VBVALOVAL       (1 << 3)  /* Bit 3:  VBUS valid override value */
-#  define OTGFS_GOTGCTL_AVALOEN         (1 << 4)  /* Bit 4:  A-peripheral session valid override enable */
-#  define OTGFS_GOTGCTL_AVALOVAL        (1 << 5)  /* Bit 5:  A-peripheral session valid override value */
-#  define OTGFS_GOTGCTL_BVALOEN         (1 << 6)  /* Bit 6:  B-peripheral session valid override enable */
-#  define OTGFS_GOTGCTL_BVALOVAL        (1 << 7)  /* Bit 7:  B-peripheral session valid override value  */
-#endif
+                                                  /* Bits 2-72 Reserved, must be kept at reset value */
 #define OTGFS_GOTGCTL_HNGSCS            (1 << 8)  /* Bit 8:  Host negotiation success */
 #define OTGFS_GOTGCTL_HNPRQ             (1 << 9)  /* Bit 9:  HNP request */
 #define OTGFS_GOTGCTL_HSHNPEN           (1 << 10) /* Bit 10: host set HNP enable */
 #define OTGFS_GOTGCTL_DHNPEN            (1 << 11) /* Bit 11: Device HNP enabled */
-#if defined(CONFIG_STM32_STM32F446) || defined(CONFIG_STM32_STM32F469)
-#  define OTGFS_GOTGCTL_EHEN            (1 << 12) /* Bit 12: Embedded host enable */
-#endif
-                                                  /* Bits 13-15: Reserved, must be kept at reset value */
+                                                  /* Bits 12-15: Reserved, must be kept at reset value */
 #define OTGFS_GOTGCTL_CIDSTS            (1 << 16) /* Bit 16: Connector ID status */
 #define OTGFS_GOTGCTL_DBCT              (1 << 17) /* Bit 17: Long/short debounce time */
 #define OTGFS_GOTGCTL_ASVLD             (1 << 18) /* Bit 18: A-session valid */
 #define OTGFS_GOTGCTL_BSVLD             (1 << 19) /* Bit 19: B-session valid */
-#if defined(CONFIG_STM32_STM32F446) || defined(CONFIG_STM32_STM32F469)
-#  define OTGFS_GOTGCTL_OTGVER          (1 << 20) /* Bit 20: OTG version */
-#endif
-                                                  /* Bits 21-31: Reserved, must be kept at reset value */
+                                                  /* Bits 20-31: Reserved, must be kept at reset value */
 /* Interrupt register */
                                                   /* Bits 1:0 Reserved, must be kept at reset value */
 #define OTGFS_GOTGINT_SEDET             (1 << 2)  /* Bit 2: Session end detected */
@@ -423,10 +410,7 @@
 #define OTGFS_GOTGINT_HNGDET            (1 << 17) /* Bit 17: Host negotiation detected */
 #define OTGFS_GOTGINT_ADTOCHG           (1 << 18) /* Bit 18: A-device timeout change */
 #define OTGFS_GOTGINT_DBCDNE            (1 << 19) /* Bit 19: Debounce done */
-#if defined(CONFIG_STM32_STM32F446) || defined(CONFIG_STM32_STM32F469)
-#  define OTGFS_GOTGINT_IDCHNG          (1 << 20) /* Bit 20: Change in ID pin input value */
-#endif
-                                                  /* Bits 21-31: Reserved, must be kept at reset value */
+                                                  /* Bits 2-31: Reserved, must be kept at reset value */
 
 /* AHB configuration register */
 
@@ -460,7 +444,7 @@
                                                   /* Bit 3 Reserved, must be kept at reset value */
 #define OTGFS_GRSTCTL_RXFFLSH           (1 << 4)  /* Bit 4: RxFIFO flush */
 #define OTGFS_GRSTCTL_TXFFLSH           (1 << 5)  /* Bit 5: TxFIFO flush */
-#define OTGFS_GRSTCTL_TXFNUM_SHIFT      (6)       /* Bits 6-10: TxFIFO number */
+#define OTGFS_GRSTCTL_TXFNUM_SHIFT      (10)      /* Bits 6-10: TxFIFO number */
 #define OTGFS_GRSTCTL_TXFNUM_MASK       (31 << OTGFS_GRSTCTL_TXFNUM_SHIFT)
 #  define OTGFS_GRSTCTL_TXFNUM_HNONPER  (0 << OTGFS_GRSTCTL_TXFNUM_SHIFT)   /* Non-periodic TxFIFO flush in host mode */
 #  define OTGFS_GRSTCTL_TXFNUM_HPER     (1 << OTGFS_GRSTCTL_TXFNUM_SHIFT)   /* Periodic TxFIFO flush in host mode */
@@ -472,48 +456,38 @@
 
 /* Core interrupt and Interrupt mask registers */
 
-#define OTGFS_GINTSTS_CMOD              (1 << 0)  /* Bit 0: ro Current mode of operation */
+#define OTGFS_GINTSTS_CMOD              (1 << 0)  /* Bit 0:  Current mode of operation */
 #  define OTGFS_GINTSTS_DEVMODE         (0)
 #  define OTGFS_GINTSTS_HOSTMODE        (OTGFS_GINTSTS_CMOD)
-#define OTGFS_GINT_MMIS                 (1 << 1)  /* Bit 1:  rc_w1 Mode mismatch interrupt */
-#define OTGFS_GINT_OTG                  (1 << 2)  /* Bit 2:  ro    OTG interrupt */
-#define OTGFS_GINT_SOF                  (1 << 3)  /* Bit 3:  rc_w1 Start of frame */
-#define OTGFS_GINT_RXFLVL               (1 << 4)  /* Bit 4:  ro    RxFIFO non-empty */
-#define OTGFS_GINT_NPTXFE               (1 << 5)  /* Bit 5:  ro    Non-periodic TxFIFO empty */
-#define OTGFS_GINT_GINAKEFF             (1 << 6)  /* Bit 6:  ro    Global IN non-periodic NAK effective */
+#define OTGFS_GINT_MMIS                 (1 << 1)  /* Bit 1:  Mode mismatch interrupt */
+#define OTGFS_GINT_OTG                  (1 << 2)  /* Bit 2:  OTG interrupt */
+#define OTGFS_GINT_SOF                  (1 << 3)  /* Bit 3:  Start of frame */
+#define OTGFS_GINT_RXFLVL               (1 << 4)  /* Bit 4:  RxFIFO non-empty */
+#define OTGFS_GINT_NPTXFE               (1 << 5)  /* Bit 5:  Non-periodic TxFIFO empty */
+#define OTGFS_GINT_GINAKEFF             (1 << 6)  /* Bit 6:  Global IN non-periodic NAK effective */
 #define OTGFS_GINT_GONAKEFF             (1 << 7)  /* Bit 7:  Global OUT NAK effective */
-#define OTGFS_GINT_RES89                (3 << 8)  /* Bits 8-9:     Reserved, must be kept at reset value */
-#define OTGFS_GINT_ESUSP                (1 << 10) /* Bit 10: rc_w1 Early suspend */
-#define OTGFS_GINT_USBSUSP              (1 << 11) /* Bit 11: rc_w1 USB suspend */
-#define OTGFS_GINT_USBRST               (1 << 12) /* Bit 12: rc_w1 USB reset */
-#define OTGFS_GINT_ENUMDNE              (1 << 13) /* Bit 13: rc_w1 Enumeration done */
-#define OTGFS_GINT_ISOODRP              (1 << 14) /* Bit 14: rc_w1 Isochronous OUT packet dropped interrupt */
-#define OTGFS_GINT_EOPF                 (1 << 15) /* Bit 15: rc_w1 End of periodic frame interrupt */
-#define OTGFS_GINT_RES16                (1 << 16) /* Bit 16        Reserved, must be kept at reset value */
-#define OTGFS_GINTMSK_EPMISM            (1 << 17) /* Bit 17:       Reserved in GINT rw Endpoint mismatch interrupt mask */
-#define OTGFS_GINT_IEP                  (1 << 18) /* Bit 18: ro    IN endpoint interrupt */
-#define OTGFS_GINT_OEP                  (1 << 19) /* Bit 19: ro    OUT endpoint interrupt */
-#define OTGFS_GINT_IISOIXFR             (1 << 20) /* Bit 20: rc_w1 Incomplete isochronous IN transfer */
-#define OTGFS_GINT_IISOOXFR             (1 << 21) /* Bit 21: rc_w1 Incomplete isochronous OUT transfer (device) */
-#define OTGFS_GINT_IPXFR                (1 << 21) /* Bit 21:       Incomplete periodic transfer (host) */
-#if defined(CONFIG_STM32_STM32F446) || defined(CONFIG_STM32_STM32F469)
-#  define OTGFS_GINT_RES22              (1 << 22) /* Bits 22: Reserved, must be kept at reset value */
-#  define OTGFS_GINT_RSTDET             (1 << 23) /* Bits 23: asserted when a reset is detected on the USB in partial */
-#else
-#  define OTGFS_GINT_RES2223            (3 << 22) /* Bits 22-23: Reserved, must be kept at reset value */
-#endif
-#define OTGFS_GINT_HPRT                 (1 << 24) /* Bit 24: ro    Host port interrupt */
-#define OTGFS_GINT_HC                   (1 << 25) /* Bit 25: ro    Host channels interrupt */
-#define OTGFS_GINT_PTXFE                (1 << 26) /* Bit 26: ro    Periodic TxFIFO empty */
-#if defined(CONFIG_STM32_STM32F446) || defined(CONFIG_STM32_STM32F469)
-#define OTGFS_GINT_LPMINT               (1 << 27) /* Bit 27 LPM interrupt */
-#else
-#define OTGFS_GINT_RES27                (1 << 27) /* Bit 27 Reserved, must be kept at reset value */
-#endif
-#define OTGFS_GINT_CIDSCHG              (1 << 28) /* Bit 28: rc_w1 Connector ID status change */
-#define OTGFS_GINT_DISC                 (1 << 29) /* Bit 29: rc_w1 Disconnect detected interrupt */
-#define OTGFS_GINT_SRQ                  (1 << 30) /* Bit 30: rc_w1 Session request/new session detected interrupt */
-#define OTGFS_GINT_WKUP                 (1 << 31) /* Bit 31: rc_w1 Resume/remote wakeup detected interrupt */
+                                                  /* Bits 8-9: Reserved, must be kept at reset value */
+#define OTGFS_GINT_ESUSP                (1 << 10) /* Bit 10: Early suspend */
+#define OTGFS_GINT_USBSUSP              (1 << 11) /* Bit 11: USB suspend */
+#define OTGFS_GINT_USBRST               (1 << 12) /* Bit 12: USB reset */
+#define OTGFS_GINT_ENUMDNE              (1 << 13) /* Bit 13: Enumeration done */
+#define OTGFS_GINT_ISOODRP              (1 << 14) /* Bit 14: Isochronous OUT packet dropped interrupt */
+#define OTGFS_GINT_EOPF                 (1 << 15) /* Bit 15: End of periodic frame interrupt */
+                                                  /* Bits 16 Reserved, must be kept at reset value */
+#define OTGFS_GINTMSK_EPMISM            (1 << 17) /* Bit 17: Endpoint mismatch interrupt mask */
+#define OTGFS_GINT_IEP                  (1 << 18) /* Bit 18: IN endpoint interrupt */
+#define OTGFS_GINT_OEP                  (1 << 19) /* Bit 19: OUT endpoint interrupt */
+#define OTGFS_GINT_IISOIXFR             (1 << 20) /* Bit 20: Incomplete isochronous IN transfer */
+#define OTGFS_GINT_IISOOXFR             (1 << 21) /* Bit 21: Incomplete isochronous OUT transfer */
+                                                  /* Bits 22-23: Reserved, must be kept at reset value */
+#define OTGFS_GINT_HPRT                 (1 << 24) /* Bit 24: Host port interrupt */
+#define OTGFS_GINT_HC                   (1 << 25) /* Bit 25: Host channels interrupt */
+#define OTGFS_GINT_PTXFE                (1 << 26) /* Bit 26: Periodic TxFIFO empty */
+                                                  /* Bit 27 Reserved, must be kept at reset value */
+#define OTGFS_GINT_CIDSCHG              (1 << 28) /* Bit 28: Connector ID status change */
+#define OTGFS_GINT_DISC                 (1 << 29) /* Bit 29: Disconnect detected interrupt */
+#define OTGFS_GINT_SRQ                  (1 << 30) /* Bit 30: Session request/new session detected interrupt */
+#define OTGFS_GINT_WKUP                 (1 << 31) /* Bit 31: Resume/remote wakeup detected interrupt */
 
 /* Receive status debug read/OTG status read and pop registers (host mode) */
 
@@ -600,18 +574,14 @@
 #  define OTGFS_HNPTXSTS_EPNUM_MASK     (15 << OTGFS_HNPTXSTS_EPNUM_SHIFT)
                                                   /* Bit 31 Reserved, must be kept at reset value */
 /* General core configuration register */
-                                                  /* Bits 0-15: Reserved, must be kept at reset value */
+                                                  /* Bits 15:0 Reserved, must be kept at reset value */
 #define OTGFS_GCCFG_PWRDWN              (1 << 16) /* Bit 16: Power down */
                                                   /* Bit 17 Reserved, must be kept at reset value */
-#if defined(CONFIG_STM32_STM32F446) || defined(CONFIG_STM32_STM32F469)
-#  define OTGFS_GCCFG_VBDEN             (1 << 21) /* Bit 21: USB VBUS detection enable */
-#else
-#  define OTGFS_GCCFG_VBUSASEN          (1 << 18) /* Bit 18: Enable the VBUS sensing A device */
-#  define OTGFS_GCCFG_VBUSBSEN          (1 << 19) /* Bit 19: Enable the VBUS sensing B device */
-#  define OTGFS_GCCFG_SOFOUTEN          (1 << 20) /* Bit 20: SOF output enable */
-#  define OTGFS_GCCFG_NOVBUSSENS        (1 << 21) /* Bit 21: VBUS sensing disable option */
-#endif
-                                                  /* Bits 22-31: Reserved, must be kept at reset value */
+#define OTGFS_GCCFG_VBUSASEN            (1 << 18) /* Bit 18: Enable the VBUS sensing “A” device */
+#define OTGFS_GCCFG_VBUSBSEN            (1 << 19) /* Bit 19: Enable the VBUS sensing “B” device */
+#define OTGFS_GCCFG_SOFOUTEN            (1 << 20) /* Bit 20: SOF output enable */
+#define OTGFS_GCCFG_NOVBUSSENS          (1 << 21) /* Bit 21: VBUS sensing disable option */
+                                                  /* Bits 31:22 Reserved, must be kept at reset value */
 /* Core ID register  (32-bit product ID) */
 
 /* Host periodic transmit FIFO size register */

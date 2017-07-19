@@ -152,69 +152,16 @@
 #define STM32_IRQ_HASH        (STM32_IRQ_INTERRUPTS+80) /* 80: Hash and Rng global interrupt */
 #define STM32_IRQ_RNG         (STM32_IRQ_INTERRUPTS+80) /* 80: Hash and Rng global interrupt */
 #define STM32_IRQ_FPU         (STM32_IRQ_INTERRUPTS+81) /* 81: FPU global interrupt */
-#if defined(CONFIG_STM32_STM32F427) || defined(CONFIG_STM32_STM32F429) || \
-    defined(CONFIG_STM32_STM32F469)
-#  define STM32_IRQ_UART7      (STM32_IRQ_INTERRUPTS+82) /* 82: UART7 interrupt */
-#  define STM32_IRQ_UART8      (STM32_IRQ_INTERRUPTS+83) /* 83: UART8 interrupt */
-#elif defined(CONFIG_STM32_STM32F446)
-#  define STM32_IRQ_RESERVED82 (STM32_IRQ_INTERRUPTS+82) /* 82: Reserved */
-#  define STM32_IRQ_RESERVED83 (STM32_IRQ_INTERRUPTS+83) /* 83: Reserved */
-#endif
-#if defined(CONFIG_STM32_STM32F427) || defined(CONFIG_STM32_STM32F429) || \
-    defined(CONFIG_STM32_STM32F446) || defined(CONFIG_STM32_STM32F469)
-#  define STM32_IRQ_SPI4       (STM32_IRQ_INTERRUPTS+84) /* 84: SPI4 interrupt */
-#endif
-#if defined(CONFIG_STM32_STM32F427) || defined(CONFIG_STM32_STM32F429) || \
-    defined(CONFIG_STM32_STM32F469)
-#  define STM32_IRQ_SPI5       (STM32_IRQ_INTERRUPTS+85) /* 85: SPI5 interrupt */
-#  define STM32_IRQ_SPI6       (STM32_IRQ_INTERRUPTS+86) /* 86: SPI6 interrupt */
-#elif defined(CONFIG_STM32_STM32F446)
-#  define STM32_IRQ_RESERVED85 (STM32_IRQ_INTERRUPTS+85) /* 85: Reserved */
-#  define STM32_IRQ_RESERVED86 (STM32_IRQ_INTERRUPTS+86) /* 86: Reserved */
-#endif
-#if defined(CONFIG_STM32_STM32F429) || defined(CONFIG_STM32_STM32F446) || \
-    defined(CONFIG_STM32_STM32F446) || defined(CONFIG_STM32_STM32F469)
-#  define STM32_IRQ_SAI1       (STM32_IRQ_INTERRUPTS+87) /* 87: SAI1 interrupt */
-#endif
-#if defined(CONFIG_STM32_STM32F429) || defined(CONFIG_STM32_STM32F469)
-#  define STM32_IRQ_LTDCINT    (STM32_IRQ_INTERRUPTS+88) /* 88: LTDCINT interrupt */
-#  define STM32_IRQ_LTDCERRINT (STM32_IRQ_INTERRUPTS+89) /* 89: LTDCERRINT interrupt */
-#  define STM32_IRQ_DMA2D      (STM32_IRQ_INTERRUPTS+90) /* 90: DMA2D interrupt */
-#elif defined(CONFIG_STM32_STM32F446)
-#  define STM32_IRQ_RESERVED88 (STM32_IRQ_INTERRUPTS+88) /* 88: Reserved */
-#  define STM32_IRQ_RESERVED89 (STM32_IRQ_INTERRUPTS+89) /* 89: Reserved */
-#  define STM32_IRQ_RESERVED90 (STM32_IRQ_INTERRUPTS+90) /* 90: Reserved */
-#endif
-#if defined(CONFIG_STM32_STM32F446)
-#  define STM32_IRQ_SAI2       (STM32_IRQ_INTERRUPTS+91) /* 91: SAI2 Global interrupt */
-#  define STM32_IRQ_QUADSPI    (STM32_IRQ_INTERRUPTS+92) /* 92: QuadSPI Global interrupt */
-#elif defined(CONFIG_STM32_STM32F469)
-#  define STM32_IRQ_QUADSPI    (STM32_IRQ_INTERRUPTS+91) /* 92: QuadSPI Global interrupt */
-#  define STM32_IRQ_DSI        (STM32_IRQ_INTERRUPTS+92) /* 91: DSI Global interrupt */
-#endif
-#if defined(CONFIG_STM32_STM32F446)
-#  define STM32_IRQ_HDMICEC    (STM32_IRQ_INTERRUPTS+93) /* 93: HDMI-CEC Global interrupt */
-#  define STM32_IRQ_SPDIFRX    (STM32_IRQ_INTERRUPTS+94) /* 94: SPDIF-Rx Global interrupt */
-#  define STM32_IRQ_FMPI2C1    (STM32_IRQ_INTERRUPTS+95) /* 95: FMPI2C1 event interrupt */
-#  define STM32_IRQ_FMPI2C1ERR (STM32_IRQ_INTERRUPTS+96) /* 96: FMPI2C1 Error event interrupt */
-#endif
 
-#if defined(CONFIG_STM32_STM32F401) || defined(CONFIG_STM32_STM32F411) || \
-    defined(CONFIG_STM32_STM32F405) || defined(CONFIG_STM32_STM32F407)
-#  define NR_VECTORS           (STM32_IRQ_INTERRUPTS+82)
-#  define NR_IRQS              (STM32_IRQ_INTERRUPTS+82)
-#elif defined(CONFIG_STM32_STM32F427)
-#  define NR_VECTORS           (STM32_IRQ_INTERRUPTS+87)
-#  define NR_IRQS              (STM32_IRQ_INTERRUPTS+87)
-#elif defined(CONFIG_STM32_STM32F429)
-#  define NR_VECTORS           (STM32_IRQ_INTERRUPTS+91)
-#  define NR_IRQS              (STM32_IRQ_INTERRUPTS+91)
-#elif defined(CONFIG_STM32_STM32F446)
-#  define NR_VECTORS           (STM32_IRQ_INTERRUPTS+97)
-#  define NR_IRQS              (STM32_IRQ_INTERRUPTS+97)
-#elif defined(CONFIG_STM32_STM32F469)
-#  define NR_VECTORS           (STM32_IRQ_INTERRUPTS+93)
-#  define NR_IRQS              (STM32_IRQ_INTERRUPTS+93)
+#ifndef CONFIG_STM32_STM32F427
+#  define NR_IRQS               (STM32_IRQ_INTERRUPTS+82)
+#else
+#  define STM32_IRQ_UART7       (STM32_IRQ_INTERRUPTS+82) /* 82: UART7 interrupt */
+#  define STM32_IRQ_UART8       (STM32_IRQ_INTERRUPTS+83) /* 83: UART8 interrupt */
+#  define STM32_IRQ_SPI4        (STM32_IRQ_INTERRUPTS+84) /* 84: SPI4 interrupt */
+#  define STM32_IRQ_SPI5        (STM32_IRQ_INTERRUPTS+85) /* 85: SPI5 interrupt */
+#  define STM32_IRQ_SPI6        (STM32_IRQ_INTERRUPTS+86) /* 86: SPI6 interrupt */
+#  define NR_IRQS               (STM32_IRQ_INTERRUPTS+87)
 #endif
 
 /****************************************************************************************************
