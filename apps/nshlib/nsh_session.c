@@ -97,6 +97,11 @@
  *  
  ****************************************************************************/
 
+/*
+  this allows for the nsh debug console to be used by a different protocol
+ */
+bool g_nsh_should_exit = false;
+
 int nsh_session(FAR struct console_stdio_s *pstate)
 {
   int ret;
@@ -135,6 +140,10 @@ int nsh_session(FAR struct console_stdio_s *pstate)
 
       ret = readline(pstate->cn_line, CONFIG_NSH_LINELEN,
                      INSTREAM(pstate), OUTSTREAM(pstate));
+      if (g_nsh_should_exit) {
+          g_nsh_should_exit = false;
+          return EXIT_SUCCESS;
+      }
       if (ret != EOF)
         {
           /* Parse process the command */
